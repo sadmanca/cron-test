@@ -7,12 +7,26 @@ on:
   workflow_dispatch:
 
 jobs:
+
   probe_deployed_app:
     runs-on: ubuntu-latest
     name: A job to probe deployed app
     steps:
-      - name: Checkout
+      # add git to the container and set it up with the token
+      - name: setup git in container
         uses: actions/checkout@v3
+          
+      # cache the dependencies from any node_modules directory
+      - name: cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: node_modules-${{ hashFiles('**/package-lock.json')}}    
+
+      # install the dependencies
+      - name: install dependencies
+        run: npm install puppeteer
+
       - name: Probe Deployed App Action Step
         uses: ./probe-action # Uses an action in the probe-action directory
         id: probe
