@@ -14,13 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        uses: actions/setup-node@v2
-        env:
-          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+      - name: setup node
+        uses: actions/setup-node@v3.6.0
         with:
-          args: install      
-          
+          node-version: 16
+          cache: 'yarn'        
+      
+      - run: yarn install
+      
       # cache the dependencies from any node_modules directory
       - name: cache dependencies
         uses: actions/cache@v2
@@ -30,5 +31,7 @@ jobs:
 
       - name: Test Code
         uses: mujo-code/puppeteer-headful@16.6.0
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true        
         with:
           args: node ./probe-action/probe.js
