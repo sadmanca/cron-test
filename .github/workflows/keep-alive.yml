@@ -1,8 +1,10 @@
 name: Trigger Probe of Deployed App on a CRON Schedule
+
 on:
   schedule:
-    # Runs "at minute 0 past every 12 hour" (see https://crontab.guru)... ie: every 12 hours
-    - cron: '0 */12 * * *'
+  # Runs "at minute 0 past every 12 hour" (see https://crontab.guru)... ie: every 12 hours
+  - cron: '0 */12 * * *'
+  workflow_dispatch:
 
 jobs:
   probe_deployed_app:
