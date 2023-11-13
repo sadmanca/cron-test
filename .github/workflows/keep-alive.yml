@@ -27,6 +27,10 @@ jobs:
       - name: install dependencies
         run: npm install puppeteer
 
+      # install the dependencies
+      - name: install chrome
+        run: node node_modules/puppeteer/install.js
+
       - name: Probe Deployed App Action Step
         uses: ./probe-action # Uses an action in the probe-action directory
         id: probe
