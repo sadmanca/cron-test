@@ -6,9 +6,10 @@ const WAKE_UP_BUTTON_TEXT = "app back up";
 const PAGE_LOAD_GRACE_PERIOD_MS = 8000;
 
 (async () => {
-    const browser = await puppeteer.launch(
-        { args: ["--no-sandbox"] }
-    );
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox'],
+      executablePath: process.env.PUPPETEER_EXEC_PATH, // set by docker container
+    });
 
     const page = await browser.newPage();
     await page.goto(TARGET_URL);
