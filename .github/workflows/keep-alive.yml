@@ -12,9 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to probe deployed app
     steps:
-      # add git to the container and set it up with the token
-      - name: setup git in container
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        uses: actions/setup-node@v2
+        env:
+          PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "true"
+        with:
+          args: install      
           
       # cache the dependencies from any node_modules directory
       - name: cache dependencies
@@ -23,14 +28,8 @@ jobs:
           path: '**/node_modules'
           key: node_modules-${{ hashFiles('**/package-lock.json')}}    
 
-      # install the dependencies
-      - name: install dependencies
-        run: npm install puppeteer
-
-      # install the dependencies
-      - name: install chrome
-        run: node node_modules/puppeteer/install.js
-
-      - name: Probe Deployed App Action Step
-        uses: ./probe-action # Uses an action in the probe-action directory
-        id: probe
+      - name: Test Code
+        uses: mujo-code/puppeteer-headful@16.6.0
+        working-directory: ./probe-action
+        with:
+          args: probe
