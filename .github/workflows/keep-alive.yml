@@ -30,6 +30,5 @@ jobs:
 
       - name: Test Code
         uses: mujo-code/puppeteer-headful@16.6.0
-        working-directory: ./probe-action
         with:
-          args: probe
+          args: node ./probe-action/probe.js
